@@ -641,16 +641,6 @@ F5 Or **Debug** → **Start Debugging**
 - Institution: [Rosebank Collage]
 - Academic Integrity: This is an academic submission. Do not plagiarize or use for unauthorized purposes.
 
----
-
-## Support & Contact
-For questions or issues, please refer to:
-- Lecturer: [Contact Info]
-- Project README: This file
-- Solution Structure: See "Project Structure" section above
-
----
-
 **Last Updated**: November 13, 2026 
 **Version**: Part 3 - Final  
 **Status**: Ready for Assessment
