@@ -5,12 +5,10 @@
 - **IDE**: Visual Studio 2022
 - **.NET Target**: .NET 6.0 or .NET Framework 4.7.2 Windows Forms
 - **Database**: SQL Server / SQLite
-- **Submission Date**: November 2026
+- **Submission Date**: 13 November 2026
 
 ## Project Overview
-
 **Part 3** extends the Cybersecurity Awareness Chatbot from Part 2 with enterprise-grade features:
-
 - **Persistent Data Storage**: SQL database integration for quizzes, tasks, user progress, and activity logs
 - **Interactive Quiz System**: Multiple-choice cybersecurity quizzes with immediate feedback and scoring
 - **Task Management**: Guided learning paths with completion tracking (e.g., "Create a strong password")
@@ -20,7 +18,7 @@
 
 The existing Part 2 chatbot features are **fully preserved and enhanced**:
 - ✅ Voice greeting on startup
-- ✅ Sentiment detection (Worried, Frustrated, Curious)
+- ✅ Sentiment detection (Worried, Frustrated, Curious, frustrated)
 - ✅ Memory storage (user interests and preferences)
 - ✅ Keyword-based topic responses
 - ✅ Conversation flow ("tell me more")
@@ -50,7 +48,7 @@ CyberSecurityAwarenessBot/
 ├── Data/
 │   ├── DatabaseConfig.cs            // Connection string config, schema initialization methods
 │   ├── TaskRepository.cs            // CRUD operations for CyberTask
-│   └── QuizRepository.cs            // CRUD operations for QuizQuestion and QuizAnswerResult
+│   
 │
 ├── Services/
 │   ├── ChatBot.cs                   // Refactored Part 2 chatbot (ProcessInput, SendResponse)
@@ -67,35 +65,35 @@ CyberSecurityAwarenessBot/
 │
 ├── database_setup.sql               // SQL schema for all database tables and relationships
 ├── README.md                        // This file
-└── .github/workflows/               // Optional: CI/CD pipeline definitions
+└── .github/workflows/               // Optional: CI/CD pipeline definitions
+
 ## Database Schema Overview
 
 ### Tables
 
 1. UserProfile
-Stores user account information and preferences.2. CyberTasks
-Guided learning tasks assigned to users.3. QuizQuestions
-Question bank for cybersecurity quizzes.4. QuizAnswers
-Quiz attempt records and results.5. ActivityLog
-Comprehensive audit trail of all user actions.### Relationships
+2. CyberTasks
+3. QuizQuestions
+4. QuizAnswers
+5. ActivityLog
+
+### Relationships
+
 UserProfile
   ├─→ CyberTasks (1-to-Many)
   ├─→ QuizAnswers (1-to-Many)
   └─→ ActivityLog (1-to-Many)
 
 QuizQuestions
-  └─→ QuizAnswers (1-to-Many)
-
----
+  └─→ QuizAnswers (1-to-Many)
 
 ## Models
 
 ### CyberTask.cs
-Represents a learning task assigned to a user.
 ### QuizQuestion.cs
-Represents a single quiz question with multiple-choice options.### QuizAnswerResult.cs
-Records a single quiz attempt and whether the user answered correctly.### ActivityEntry.cs
-Logs any user action for analytics and auditing.
+### QuizAnswerResult.cs
+### ActivityEntry.cs.
+
 ## Services
 
 ### ChatBot.cs (Refactored from Part 2)
@@ -114,9 +112,6 @@ Logs any user action for analytics and auditing.
 1. Chat Tab (Part 2 Chatbot)
 - **ASCII Art Banner** (Consolas font for alignment)
 - **Chat History** (RichTextBox, read-only)
-- Shows bot responses in green
-- Shows user messages in user color
-- Auto-scrolls to latest message
 - **Input TextBox** (accepts user queries)
 - **Send Button** (or Enter key)
 - **Features**:
@@ -134,8 +129,6 @@ Logs any user action for analytics and auditing.
 - Shows current question text
 - Shows question number (e.g., "Question 1 of 10")
 - **Answer Option Buttons** (4 buttons for A, B, C, D)
-- On correct answer: Button turns green, message "Correct! ✓"
-- On wrong answer: Button turns red, message shows correct option
 - Buttons disabled until user clicks one
 - **Feedback Label** (Shows explanation and score)
 - **Progress Bar** (Shows % of quiz completed)
@@ -203,15 +196,22 @@ Logs any user action for analytics and auditing.
 ## Collections & Data Structures (Rubric Compliance)
 
 ### Dictionary<string, List<string>> Usage
-**KeywordResponder.cs:**### Dictionary<string, List<CyberTask>> Usage
+**KeywordResponder.cs:**
+### Dictionary<string, List<CyberTask>> Usage
 **TaskRepository.cs:**
 ### Dictionary<string, QuizAnswerResult> Usage
-**QuizRepository.cs:**### List<QuizQuestion> Usage
-**QuizManager.cs:**
+**QuizRepository.cs:**
+### List<QuizQuestion> Usage
+**QuizManager.cs:**
+
 ## Delegate Usage (Part 2 Compliance)
 
 ### BotResponseHandler Delegate
-**Defined in ChatBot.cs:**public delegate void BotResponseHandler(string message);**Assigned in MainForm.Load():****Invoked in ChatBot.SendResponse():****Callback Implementation in MainForm:**
+**Defined in ChatBot.cs:**
+public delegate void BotResponseHandler(string message);
+**Assigned in MainForm.Load():**
+**Invoked in ChatBot.SendResponse():**
+**Callback Implementation in MainForm:**
 **Extensions in Part 3:**
 - Delegate can notify Activity Logger
 - Delegate can update UI progress indicators
@@ -228,9 +228,11 @@ Logs any user action for analytics and auditing.
 
 ### Step-by-Step Setup
 
-#### 1. Clone the Repository
+#### 1. Clone the Repository
+
 git clone <your-github-link>
-cd CyberSecurityAwarenessBot
+cd CyberSecurityAwarenessBot
+
 
 #### 2. Configure Database Connection
 
@@ -245,13 +247,20 @@ cd CyberSecurityAwarenessBot
 - Application auto-creates `cybersecurity_chatbot.db` on first run
 - No manual setup required
 
-**Option C: Programmatic Initialization**
-// In Program.cs or MainForm.Load():
-DatabaseConfig.InitializeDatabase();
+**Option C: Programmatic Initialization**
 
-#### 4. Build the Solution
+// In Program.cs or MainForm.Load():
+DatabaseConfig.InitializeDatabase();
+
+
+#### 4. Build the Solution
+
 Ctrl+Shift+B
-Or via command line:dotnet build**Expected Output:**Build succeeded. 0 Warning(s)
+Or via command line:
+dotnet build
+**Expected Output:**
+Build succeeded. 0 Warning(s)
+
 #### 5. Set Startup Project
 - In **Solution Explorer**, right-click `CyberSecurityAwarenessBot` (NOT the console project)
 - Select **Set as Startup Project**
@@ -264,7 +273,8 @@ Or via command line:dotnet build**Expected Output:**Build succeeded. 0 Warnin
   - **Copy to Output Directory**: Copy if newer
 - This ensures relative path works: `Path.Combine(Application.StartupPath, "Assets", "greeting.wav")`
 
-#### 7. Run the Application
+#### 7. Run the Application
+
 F5 Or **Debug** → **Start Debugging**
 
 **Expected Behavior:**
@@ -515,7 +525,8 @@ F5 Or **Debug** → **Start Debugging**
     │ - QuizQuestions                │
     │ - QuizAnswers                  │
     │ - ActivityLog                  │
-    └────────────────────────────────┘
+    └────────────────────────────────┘
+
 
 
 ## References & Related Projects
@@ -610,9 +621,11 @@ F5 Or **Debug** → **Start Debugging**
 ### Issue: Tasks tab shows empty list
 **Cause:** No tasks assigned to current user
 **Solution:**
-1. Manually insert test data into CyberTasks table:
+1. Manually insert test data into CyberTasks table:
+
    INSERT INTO CyberTasks (Title, Description, Category, Completed, AssignedDate)
-   VALUES ('Create a Strong Password', '...', 'password', 0, GETDATE());
+   VALUES ('Create a Strong Password', '...', 'password', 0, GETDATE());
+
 2. OR create UI button to auto-generate sample tasks
 
 ### Issue: Progress tab shows no activity history
@@ -640,5 +653,6 @@ For questions or issues, please refer to:
 
 **Last Updated**: November 13, 2026 
 **Version**: Part 3 - Final  
-**Status**: Ready for Assessment
+**Status**: Ready for Assessment
+
 
