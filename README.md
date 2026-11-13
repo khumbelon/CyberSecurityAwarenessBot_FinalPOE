@@ -77,18 +77,7 @@ CyberSecurityAwarenessBot/
 4. QuizAnswers
 5. ActivityLog
 
-### Relationships
-
-UserProfile
-  ├─→ CyberTasks (1-to-Many)
-  ├─→ QuizAnswers (1-to-Many)
-  └─→ ActivityLog (1-to-Many)
-
-QuizQuestions
-  └─→ QuizAnswers (1-to-Many)
-
 ## Models
-
 ### CyberTask.cs
 ### QuizQuestion.cs
 ### QuizAnswerResult.cs
@@ -133,16 +122,6 @@ QuizQuestions
 - **Feedback Label** (Shows explanation and score)
 - **Progress Bar** (Shows % of quiz completed)
 - **Next Button** (Proceeds to next question)
-- **Scorecard Link** (Views quiz statistics)
-
-**Flow:**
-1. User selects category
-2. Quiz starts, question 1 displayed
-3. User clicks answer button
-4. Immediate feedback shown
-5. Next button enabled
-6. Repeat for all questions
-7. Final scorecard with score and category breakdown
 
 #### 3. Tasks Tab
 **Components:**
@@ -158,51 +137,6 @@ QuizQuestions
 - **Completion Percentage** (Label)
 - Shows "X/Y tasks completed"
 - Progress bar visualization
-
-**Flow:**
-1. User views task list
-2. Click task → see details
-3. Check checkbox to mark complete
-4. Completion date recorded in database
-5. Progress percentage updates
-
-#### 4. Progress Tab
-**Components:**
-- **Quiz Statistics Section**
-- Total quiz attempts
-- Overall score percentage
-- Breakdown by category (Password Safety: 80%, Phishing: 60%, etc.)
-- Bar chart (optional visualization)
-- **Task Statistics Section**
-- Task completion percentage
-- Tasks completed vs. total
-- Timeline of completions
-- **Activity Timeline** (RichTextBox or ListView)
-- Chronological list of all user actions
-- Format: "[timestamp] [action] [category]"
-- Example: "[Nov 11, 2:45 PM] Chat Message about Phishing"
-- Example: "[Nov 11, 3:00 PM] Quiz Attempt - Malware Question 3 (Correct)"
-- Example: "[Nov 11, 3:15 PM] Task Completed - Create Strong Password"
-- **Export Button** (Optional: save report as CSV/PDF)
-
-**Flow:**
-1. User navigates to Progress tab
-2. Sees quiz stats and task progress
-3. Scrolls through activity timeline
-4. Optionally exports report
-
----
-
-## Collections & Data Structures (Rubric Compliance)
-
-### Dictionary<string, List<string>> Usage
-**KeywordResponder.cs:**
-### Dictionary<string, List<CyberTask>> Usage
-**TaskRepository.cs:**
-### Dictionary<string, QuizAnswerResult> Usage
-**QuizRepository.cs:**
-### List<QuizQuestion> Usage
-**QuizManager.cs:**
 
 ## Delegate Usage (Part 2 Compliance)
 
@@ -226,196 +160,6 @@ public delegate void BotResponseHandler(string message);
 - **SQL Server Express 2019+** OR **SQLite**
 - **Windows 10/11** with Windows Forms support
 
-### Step-by-Step Setup
-
-#### 1. Clone the Repository
-
-git clone <your-github-link>
-cd CyberSecurityAwarenessBot
-
-
-#### 2. Configure Database Connection
-
-**Option A: SQL Server (Manual)**
-1. Open **SQL Server Management Studio (SSMS)**
-2. Connect to your SQL Server instance
-3. Open `database_setup.sql`
-4. Execute the script
-5. Verify tables created: UserProfile, CyberTasks, QuizQuestions, QuizAnswers, ActivityLog
-
-**Option B: SQLite (Automatic)**
-- Application auto-creates `cybersecurity_chatbot.db` on first run
-- No manual setup required
-
-**Option C: Programmatic Initialization**
-
-// In Program.cs or MainForm.Load():
-DatabaseConfig.InitializeDatabase();
-
-
-#### 4. Build the Solution
-
-Ctrl+Shift+B
-Or via command line:
-dotnet build
-**Expected Output:**
-Build succeeded. 0 Warning(s)
-
-#### 5. Set Startup Project
-- In **Solution Explorer**, right-click `CyberSecurityAwarenessBot` (NOT the console project)
-- Select **Set as Startup Project**
-- Verify it's bolded in the tree
-
-#### 6. Verify Assets
-- Check `Assets/greeting.wav` exists
-- In **Properties**, set:
-  - **Build Action**: Content
-  - **Copy to Output Directory**: Copy if newer
-- This ensures relative path works: `Path.Combine(Application.StartupPath, "Assets", "greeting.wav")`
-
-#### 7. Run the Application
-
-F5 Or **Debug** → **Start Debugging**
-
-**Expected Behavior:**
-1. Voice greeting plays on startup ✓
-2. Main form opens in maximized window ✓
-3. Chat tab active with ASCII art header ✓
-4. User can enter name and ask questions ✓
-5. Quiz tab loads questions from database ✓
-6. Tasks tab shows assigned tasks ✓
-7. Progress tab displays statistics ✓
-
----
-
-## Cybersecurity Quiz Content Examples
-
-### Password Safety Quiz
-
-**Question 1 (Difficulty 1):**
-- Q: What makes a strong password?
-- A) At least 8 characters with numbers and symbols
-- B) Your dog's name
-- C) Same password for all sites
-- D) Your birthday
-- **Answer**: A
-- **Explanation**: Strong passwords use length, complexity (numbers/symbols), and uniqueness across sites.
-
-**Question 2 (Difficulty 2):**
-- Q: What should you do if a website is breached?
-- A) Change your password immediately
-- B) Use the same password everywhere for consistency
-- C) Ignore it—one breach doesn't matter
-- D) Delete your account
-- **Answer**: A
-- **Explanation**: Change compromised passwords ASAP and check if other accounts use the same password.
-
-### Phishing Quiz
-
-**Question 1 (Difficulty 1):**
-- Q: How to identify a phishing email?
-- A) Suspicious sender, misspellings, urgency tactics
-- B) All emails are phishing
-- C) Phishing only happens via phone
-- D) Can't identify phishing
-- **Answer**: A
-- **Explanation**: Phishing emails use urgency, fake sender addresses, poor grammar, and suspicious links.
-
-**Question 2 (Difficulty 3):**
-- Q: Before clicking an email link, what should you do?
-- A) Check the URL by hovering over the link
-- B) Click immediately—your email provider filters phishing
-- C) Reply asking if it's legitimate
-- D) Open the attachment to verify sender
-- **Answer**: A
-- **Explanation**: Hover over links to see the actual URL before clicking. Scammers hide real URLs behind text.
-
-### Malware Quiz
-
-**Question 1 (Difficulty 1):**
-- Q: Best protection against malware?
-- A) Updated antivirus + avoid untrusted downloads
-- B) Disable antivirus for speed
-- C) Open all attachments
-- D) No protection needed
-- **Answer**: A
-- **Explanation**: Keep antivirus updated, only download from trusted sources, and never auto-run attachments.
-
-**Question 2 (Difficulty 2):**
-- Q: What's the risk of using public WiFi?
-- A) Attackers can intercept unencrypted data
-- B) Public WiFi is always safe
-- C) You can't get malware from public WiFi
-- D) Your device will explode
-- **Answer**: A
-- **Explanation**: Public WiFi is unsecured. Use VPN, avoid banking/shopping, and disable auto-connect.
-
-### Scams Quiz
-
-**Question 1 (Difficulty 2):**
-- Q: What's a common social engineering tactic?
-- A) Pretending to be IT support to get passwords
-- B) Always being honest about identity
-- C) Using legitimate company names only
-- D) Asking permission first
-- **Answer**: A
-- **Explanation**: Scammers impersonate trusted entities (IT, banks, support) to manipulate victims.
-
-### Privacy Quiz
-
-**Question 1 (Difficulty 2):**
-- Q: What should you check before installing an app?
-- A) Requested permissions—only allow necessary ones
-- B) Always grant all permissions requested
-- C) Permissions don't matter
-- D) Only check price
-- **Answer**: A
-- **Explanation**: Apps often request excessive permissions. Grant only what's truly needed for functionality.
-
----
-
-## Edge Cases Handled
-
-### Database Failures
-- **Scenario**: SQL Server unavailable or connection fails
-- **Handling**: Log warning to console, fall back to in-memory storage
-- **User Experience**: "Warning: Database unavailable. Running in memory-only mode. Data will not be saved."
-
-### Empty User Input
-- **Scenario**: User presses Send with no text
-- **Handling**: Display "Please enter a question..." prompt
-- **Part 3 Addition**: Also applies to quiz attempts—can't submit without selecting answer
-
-### Duplicate Task Completion
-- **Scenario**: User marks same task as complete multiple times
-- **Handling**: Database records each completion as separate log entry, but `Task.Completed` flag remains true
-- **Workaround**: UI disables checkbox once `IsCompleted = true`
-
-### Invalid Quiz Answers
-- **Scenario**: Corrupted question in database or invalid option selected
-- **Handling**: Validate QuestionId and selected answer before logging
-- **Fallback**: Skip question, log error, continue to next
-
-### Concurrent Activity Logging
-- **Scenario**: Multiple operations logged simultaneously (rare in desktop app, but important)
-- **Handling**: Database handles transaction locking; application uses thread-safe repositories
-
-### Missing Audio File
-- **Scenario**: `greeting.wav` not found
-- **Handling**: Try-catch in `VoiceGreeting.PlayWelcome()`
-
-### Unknown Topic in Keyword Responder
-- **Scenario**: User asks about topic not in KeywordResponder dictionary
-## Collections Usage Summary (Rubric Compliance)
-
-| Collection Type | Location | Purpose | Example |
-|---|---|---|---|
-| `Dictionary<string, List<string>>` | `KeywordResponder.cs` | Multiple tips per category | `{ "password": ["Tip1", "Tip2", "Tip3"] }` |
-| `Dictionary<string, List<CyberTask>>` | `TaskRepository.cs` | Tasks grouped by category | `{ "phishing": [Task1, Task2] }` |
-| `Dictionary<string, QuizAnswerResult>` | `QuizRepository.cs` | User's latest attempts per question | `{ "1": Result, "2": Result }` |
-| `List<QuizQuestion>` | `QuizManager.cs` | Question bank for category | `[Question1, Question2, Question3]` |
-| `List<ActivityEntry>` | `ActivityLogger.cs` | User activity history | `[Activity1, Activity2, Activity3]` |
-| `Dictionary<string, string>` | `MemoryStore.cs` | User interests (Part 2 carryover) | `{ "favorite_topic": "phishing" }` |
 
 ## Testing Checklist
 
@@ -483,53 +227,25 @@ F5 Or **Debug** → **Start Debugging**
 - [ ] **Corrupted Data**: Invalid records skipped with logged error
 - [ ] **Concurrent Operations**: No data corruption or crashes
 
----
+  ## Releases
+- v1.0-part1
+- v2.0-part2
+- v3.0-final
+## Video Presentation
+[https://youtu.be/uTS3uLHMaMc].
 
-## Project Dependency Graph
-
-┌─────────────────────────────────────────────────┐
-│ MainForm (GUI)                                  │
-├─────────────────────────────────────────────────┤
-│ - ChatBot (Chat tab)                            │
-│ - QuizManager (Quiz tab)                        │
-│ - TaskRepository (Tasks tab)                    │
-│ - ActivityLogger (Progress tab)                 │
-└─────────────────────────────────────────────────┘
-         ↓
-    ┌────────────────────────────────┐
-    │ Services Layer                 │
-    ├────────────────────────────────┤
-    │ - ChatBot                      │
-    │ - SentimentDetector            │
-    │ - MemoryStore                  │
-    │ - KeywordResponder             │
-    │ - QuizManager                  │
-    │ - NlpProcessor                 │
-    │ - ActivityLogger               │
-    │ - VoiceGreeting                │
-    └────────────────────────────────┘
-         ↓
-    ┌────────────────────────────────┐
-    │ Data/Repository Layer          │
-    ├────────────────────────────────┤
-    │ - DatabaseConfig               │
-    │ - TaskRepository               │
-    │ - QuizRepository               │
-    └────────────────────────────────┘
-         ↓
-    ┌────────────────────────────────┐
-    │ Database                       │
-    ├────────────────────────────────┤
-    │ - UserProfile                  │
-    │ - CyberTasks                   │
-    │ - QuizQuestions                │
-    │ - QuizAnswers                  │
-    │ - ActivityLog                  │
-    └────────────────────────────────┘
-
-
-
-## References & Related Projects
+ ## Appendix B. Suggested evidence screenshots
+ <img width="790" height="265" alt="CI Workflow" src="https://github.com/user-attachments/assets/a724a519-08cc-45bd-bd7a-1b1a090a5283" /> --CI workflow
+ <img width="984" height="681" alt="Chat screen" src="https://github.com/user-attachments/assets/f480a697-041d-4804-9cb5-dd9549f240f7" />  --Chat screen
+ <img width="1251" height="649" alt="Commits history" src="https://github.com/user-attachments/assets/77a4f19c-8d76-429e-800b-f3071c79b508" /> Commits history
+ <img width="977" height="611" alt="final quiz score" src="https://github.com/user-attachments/assets/5144e3e0-99b2-4104-9f3e-aee1a0bbeb67" /> finalQuiz
+<img width="292" height="345" alt="MySQL Workbench" src="https://github.com/user-attachments/assets/b0d0a227-fc97-4ab2-ab41-cea0ebc59669" /> My SQL workbench
+<img width="284" height="228" alt="Releases" src="https://github.com/user-attachments/assets/a7cb1299-5879-46a5-86cd-67c18255d835" /> Releases
+<img width="981" height="686" alt="quiz question and feedback" src="https://github.com/user-attachments/assets/4da9fb4c-992e-408c-94d0-611ac2dc4623" /> ---quiz question and feedback
+<img width="984" height="689" alt="Tasks" src="https://github.com/user-attachments/assets/82769b61-6028-4264-b8f9-4c43169ae8e9" /> Task
+<img width="899" height="1599" alt="IMG-20261112-WA0145" src="https://github.com/user-attachments/assets/da2e7641-5163-47a3-91bc-c608be79d833" /> Activity.
+ 
+ ## References & Related Projects
 
 ### Part 1: CyberSecurityAwarenessBot (Console)
 - **Location**: `CyberSecurityAwarenessBot/` folder in solution
@@ -572,14 +288,6 @@ F5 Or **Debug** → **Start Debugging**
 - ✅ **Collections Usage**: `Dictionary<string, List<T>>` and `List<T>` throughout codebase
 - ✅ **Delegate Pattern**: `BotResponseHandler` maintained and extended
 - ✅ **Error Handling**: Graceful fallback for database failures
-
-## Releases
-- v1.0-part1
-- v2.0-part2
-- v3.0-final
-## Video Presentation
-[https://youtu.be/uTS3uLHMaMc].
-
 
 ## License & Attribution
 - Project: PROG6221 Programming 2A - POE
