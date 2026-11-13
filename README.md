@@ -573,68 +573,13 @@ F5 Or **Debug** → **Start Debugging**
 - ✅ **Delegate Pattern**: `BotResponseHandler` maintained and extended
 - ✅ **Error Handling**: Graceful fallback for database failures
 
-### Code Quality
-- ✅ **Single Responsibility Principle**: Each service has one purpose
-- ✅ **Dependency Injection Pattern**: Services injected into repositories/managers
-- ✅ **Separation of Concerns**: Models, Data, Services, UI layers clearly separated
-- ✅ **XML Documentation**: Methods documented with summary tags
-- ✅ **Exception Handling**: Try-catch blocks for network/database errors
-- ✅ **Null Safety**: Null-coalescing operators and null checks throughout
+## Releases
+- v1.0-part1
+- v2.0-part2
+- v3.0-final
+## Video Presentation
+[https://youtu.be/uTS3uLHMaMc].
 
-### Rubric Compliance
-- ✅ **Collections**: Multiple Dictionary and List instances as required
-- ✅ **Delegate**: BotResponseHandler implemented and used meaningfully
-- ✅ **Database**: SQL schema with proper relationships and constraints
-- ✅ **GUI**: Windows Forms with tabs, labels, buttons, lists, progress bars
-- ✅ **Voice Greeting**: SoundPlayer implementation preserved
-- ✅ **ASCII Art**: Monospaced font (Consolas) for visual alignment
-- ✅ **Edge Cases**: Handled empty input, unknown topics, missing files, database failures
-- ✅ **Memory/Personalization**: User name and interests stored and recalled
-
----
-
-## Troubleshooting
-
-### Issue: "Database unavailable" warning on startup
-**Solution:**
-1. Check SQL Server is running (Services → SQL Server)
-2. Verify `ConnectionString` in `DatabaseConfig.cs` is correct
-3. Ensure database exists: `CREATE DATABASE CybersecurityChatbot`
-4. Confirm user has permissions to create/modify tables
-
-### Issue: Voice greeting doesn't play
-**Cause:** `greeting.wav` not found or audio device muted
-**Solution:**
-1. Check `Assets/greeting.wav` exists in project
-2. Verify **Build Action** = **Content**
-3. Verify **Copy to Output** = **Copy if newer**
-4. Check Windows volume is not muted
-5. Test with another audio player
-
-### Issue: Quiz questions don't load
-**Cause:** QuizQuestions table empty or database connection failed
-**Solution:**
-1. Run `database_setup.sql` to populate sample questions
-2. Verify database connection with test query
-3. Check QuizRepository.GetByCategory() implementation
-
-### Issue: Tasks tab shows empty list
-**Cause:** No tasks assigned to current user
-**Solution:**
-1. Manually insert test data into CyberTasks table:
-
-   INSERT INTO CyberTasks (Title, Description, Category, Completed, AssignedDate)
-   VALUES ('Create a Strong Password', '...', 'password', 0, GETDATE());
-
-2. OR create UI button to auto-generate sample tasks
-
-### Issue: Progress tab shows no activity history
-**Cause:** ActivityLog table empty (no actions logged yet)
-**Solution:**
-1. Use chat, quiz, or tasks to generate actions
-2. Each action automatically logged to ActivityLog
-3. Refresh Progress tab to see updates
----
 
 ## License & Attribution
 - Project: PROG6221 Programming 2A - POE
